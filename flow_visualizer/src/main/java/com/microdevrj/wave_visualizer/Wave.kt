@@ -47,20 +47,15 @@ class Wave(id: String) : WaveSource.WaveListener,
     }
 
     override fun onCapture(b: ByteArray) {
-        if (raw == null || raw!!.size != b.size)
-            raw = b
-
-        "on data capture".deb()
+        raw = b
     }
 
     override fun onTick(delta: Double) {
         if (raw == null)
             return
 
-        "on tick".deb()
-
         for (i in surfers.indices) {
-            with(surfers[i]){
+            with(surfers[i]) {
                 this.parser.parse(raw!!, this.renderer.sampleSize)
 
                 this.renderer.dataSnapshot = this.parser.parsed
@@ -72,7 +67,6 @@ class Wave(id: String) : WaveSource.WaveListener,
                 this.requestFrame()
             }
         }
-
 
     }
 

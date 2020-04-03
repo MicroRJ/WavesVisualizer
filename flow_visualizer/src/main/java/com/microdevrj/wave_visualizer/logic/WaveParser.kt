@@ -1,5 +1,7 @@
 package com.microdevrj.wave_visualizer.logic
 
+import com.microdevrj.deb
+
 
 /**
  * This class is in charge of handling the wave form data.
@@ -23,11 +25,11 @@ class WaveParser {
             parsed = FloatArray(parseSize)
             factor = b.size / parseSize
         }
-        //b.indices == parsed.indices, avoid having to null check
         for (i in parsed!!.indices) {
             val avg = b.averageValueInBytes(i * factor, factor)
             //interpolate between previous value and new value
             parsed!![i] = lerp(DEFAULT_SMOOTHING, parsed!![i], avg)
+
         }
     }
 

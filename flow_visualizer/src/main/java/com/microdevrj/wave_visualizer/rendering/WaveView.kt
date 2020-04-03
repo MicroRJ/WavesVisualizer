@@ -16,9 +16,7 @@ class WaveView @JvmOverloads constructor(
 
     override var parser: WaveParser = WaveParser()
 
-    override var renderer: WaveRenderer =
-        BarWaveRenderer(8f, 80f, 15f)
-
+    override var renderer: WaveRenderer = BarWaveRenderer(8f, 80f, 15f)
 
     private var width: Float = 0f
 
@@ -26,26 +24,18 @@ class WaveView @JvmOverloads constructor(
 
     private var measured: Boolean = false
 
-
-
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         this.width = w.toFloat()
-
         this.height = h.toFloat()
-
         this.measured = true
-
         renderer.onBoundsChanged(RectF(0f, 0f, width, height))
     }
-
 
     override fun requestFrame() {
         postInvalidate()
     }
 
     override fun onDraw(canvas: Canvas?) {
-        "rendering ${hashCode()}".deb()
-        //if the values are ready to render
         renderer.onRender(canvas ?: return)
     }
 }

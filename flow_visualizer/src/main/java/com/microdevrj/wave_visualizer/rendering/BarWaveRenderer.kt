@@ -44,8 +44,6 @@ class BarWaveRenderer(
     override fun onUpdate(deltaTime: Double) {
         if (dataSnapshot == null)
             return
-        dataSnapshot?.size?.deb()
-
         for (i in dataSnapshot!!.indices)
             super.plotSnapshot!![i] = dataSnapshot!![i].mapTo(decline, peak, 0f, barHeight / 2)
 
@@ -56,8 +54,9 @@ class BarWaveRenderer(
     ) {
         if (dataSnapshot == null)
             return
+        //todo bug, data snapshot stays the same after first play/pause cycle
 
-        "bar renderer rendering".deb()
+//        dataSnapshot!![0].deb()
 
         for (i in dataSnapshot!!.indices) {
             val left = i * (barWidth + spacing) + offset
