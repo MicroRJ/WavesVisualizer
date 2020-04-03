@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import com.microdevrj.deb
 import com.microdevrj.wave_visualizer.Surfer
 import com.microdevrj.wave_visualizer.logic.WaveParser
 
@@ -16,7 +15,7 @@ class WaveView @JvmOverloads constructor(
 
     override var parser: WaveParser = WaveParser()
 
-    override var renderer: WaveRenderer = BarWaveRenderer(8f, 80f, 15f)
+    override var renderer: WaveRenderer = BarRenderer(8f, 80f, 15f)
 
     private var width: Float = 0f
 

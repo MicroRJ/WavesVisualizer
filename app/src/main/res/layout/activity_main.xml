@@ -1,32 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
+
+    <com.microdevrj.wave_visualizer.rendering.WaveView
+        android:id="@+id/waveView"
+        android:layout_width="match_parent"
+        android:layout_height="146dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/card"
+        android:elevation="12dp" />
+
+
+    <com.microdevrj.wave_visualizer.rendering.WaveView
+        android:id="@+id/waveView1"
+        android:layout_width="match_parent"
+        android:layout_height="146dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/card"
+        android:backgroundTint="@color/colorSecondary"
+        android:elevation="12dp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:background="@drawable/card"
+        android:backgroundTint="#fff"
+        android:elevation="12dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="24dp">
 
-        <com.microdevrj.wave_visualizer.rendering.WaveView
-            android:id="@+id/waveView"
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
-            android:layout_height="156dp" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <com.microdevrj.wave_visualizer.rendering.WaveView
-            android:id="@+id/waveView1"
+            <RadioButton
+                android:id="@+id/r1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Width" />
+
+            <RadioButton
+                android:id="@+id/r2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Height" />
+
+            <RadioButton
+                android:id="@+id/r3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Spacing" />
+
+        </RadioGroup>
+
+        <SeekBar
+            android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="156dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
 
     </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -34,10 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="36dp"
         android:src="@drawable/ic_play_arrow_black_24dp"
-        app:borderWidth="0dp"
-        app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:tint="#fff"
+        app:fabSize="normal" />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

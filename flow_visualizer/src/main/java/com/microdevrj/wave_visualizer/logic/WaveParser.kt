@@ -1,6 +1,6 @@
 package com.microdevrj.wave_visualizer.logic
 
-import com.microdevrj.deb
+import android.util.Log
 
 
 /**
@@ -9,7 +9,12 @@ import com.microdevrj.deb
  * It smooths the data, to be visualized
  */
 class WaveParser {
+
+
     companion object {
+
+        private val TAG = WaveParser::class.java.name
+
         const val DEFAULT_SMOOTHING = 0.40f
         const val SOFT_SMOOTHING = 0.35f
         const val HARD_SMOOTHING = 0.55f
@@ -21,7 +26,16 @@ class WaveParser {
 
     @Synchronized
     fun parse(b: ByteArray, parseSize: Int) {
-        if (parsed == null) {
+        if (parseSize >= b.size) {
+            Log.w(TAG, "parse size >= limit, see WaveParser.kt @ method parse")
+            return
+        }
+        if (parseSize <= 0) {
+            Log.w(TAG, "parse size <= 0,     see WaveParser.kt method parse")
+            return
+        }
+
+        if (parsed == null || parsed!!.size != parseSize) {
             parsed = FloatArray(parseSize)
             factor = b.size / parseSize
         }
@@ -29,7 +43,6 @@ class WaveParser {
             val avg = b.averageValueInBytes(i * factor, factor)
             //interpolate between previous value and new value
             parsed!![i] = lerp(DEFAULT_SMOOTHING, parsed!![i], avg)
-
         }
     }
 

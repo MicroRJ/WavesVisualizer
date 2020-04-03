@@ -1,9 +1,12 @@
 package com.microdevrj.flow_visualizer_example
 
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.widget.SeekBar
 import android.widget.Toast
 import com.microdevrj.wave_visualizer.Wave
+import com.microdevrj.wave_visualizer.rendering.BarRenderer
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -23,8 +26,43 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        waveView.renderer.setForegroundColor(resources.getColor(R.color.colorAccent))
-        waveView1.renderer.setForegroundColor(resources.getColor(R.color.colorSecondary))
+        waveView.renderer.setForegroundColor(Color.WHITE)
+        waveView1.renderer.setForegroundColor(Color.WHITE)
+        val barR = waveView.renderer as BarRenderer
+
+
+        var property = R.id.r1
+
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            property = checkedId
+            when (property) {
+                R.id.r1 -> seekBar.progress = barR.barWidth.toInt()
+                R.id.r2 -> seekBar.progress = barR.barHeight.toInt()
+                R.id.r3 -> seekBar.progress = barR.barSpacing.toInt()
+            }
+        }
+
+
+        seekBar.max = 1000
+        seekBar.progress = barR.barWidth.toInt()
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                when (property) {
+                    R.id.r1 -> barR.barWidth = progress.toFloat()
+                    R.id.r2 -> barR.barHeight = progress.toFloat()
+                    R.id.r3 -> barR.barSpacing = progress.toFloat()
+                }
+                barR.update()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+
+
 
         wave.add(waveView)
         wave.add(waveView1)
@@ -36,7 +74,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
     private fun initPlayer() {
         try {
-            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_2)
+            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_1)
             mediaPlayer.setOnPreparedListener(this)
         } catch (e: Exception) {
             Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
