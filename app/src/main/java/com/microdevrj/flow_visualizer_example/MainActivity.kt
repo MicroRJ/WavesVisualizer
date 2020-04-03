@@ -3,8 +3,7 @@ package com.microdevrj.flow_visualizer_example
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Toast
-import com.microdevrj.wave_visualizer.engine.Wave
-import com.microdevrj.wave_visualizer.source.WaveSource
+import com.microdevrj.wave_visualizer.Wave
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -16,7 +15,8 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
     private lateinit var mediaPlayer: MediaPlayer
 
-    private var wave: Wave = Wave("wave_1")
+    private var wave: Wave =
+        Wave("wave_1")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
         waveView1.renderer.setForegroundColor(resources.getColor(R.color.colorSecondary))
 
         wave.add(waveView)
-//        wave.add(waveView1)
+        wave.add(waveView1)
     }
 
     override fun onPermissionsGranted() {
@@ -36,7 +36,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
     private fun initPlayer() {
         try {
-            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_3)
+            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_2)
             mediaPlayer.setOnPreparedListener(this)
         } catch (e: Exception) {
             Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()

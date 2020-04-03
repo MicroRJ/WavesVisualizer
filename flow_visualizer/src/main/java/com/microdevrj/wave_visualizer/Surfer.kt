@@ -1,4 +1,4 @@
-package com.microdevrj.wave_visualizer.events
+package com.microdevrj.wave_visualizer
 
 import com.microdevrj.wave_visualizer.rendering.WaveRenderer
 import com.microdevrj.wave_visualizer.logic.WaveParser

@@ -1,10 +1,5 @@
 package com.microdevrj.wave_visualizer.logic
 
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.LinearInterpolator
-import java.io.ByteArrayInputStream
-import kotlin.math.max
-
 
 /**
  * This class is in charge of handling the wave form data.
@@ -12,17 +7,14 @@ import kotlin.math.max
  * It smooths the data, to be visualized
  */
 class WaveParser {
-
     companion object {
         const val DEFAULT_SMOOTHING = 0.40f
         const val SOFT_SMOOTHING = 0.35f
         const val HARD_SMOOTHING = 0.55f
-        const val PEAK = 128f
-        const val DECLINE = 0f
     }
 
-
     var parsed: FloatArray? = null
+
     var factor: Int = -1
 
     @Synchronized

@@ -1,10 +1,8 @@
-package com.microdevrj.wave_visualizer.engine
+package com.microdevrj.wave_visualizer
 
 import com.microdevrj.deb
 import com.microdevrj.wave_visualizer.logic.ChronoEngine
 import com.microdevrj.wave_visualizer.logic.TickListener
-import com.microdevrj.wave_visualizer.events.Surfer
-import com.microdevrj.wave_visualizer.source.WaveSource
 
 class Wave(id: String) : WaveSource.WaveListener,
     TickListener {
@@ -19,8 +17,10 @@ class Wave(id: String) : WaveSource.WaveListener,
 
     private val surfers: ArrayList<Surfer> = ArrayList()
 
-    private var state: State = State.NONE
+    private var state: State =
+        State.NONE
 
+    private var raw: ByteArray? = null
 
     fun setActive(active: Boolean) {
         waveSource?.active = active
@@ -42,33 +42,38 @@ class Wave(id: String) : WaveSource.WaveListener,
         this.state = newState
 
         //idle if not active
-        this.gear.isIdle = newState != State.ACTIVE
+        this.gear.isIdle = newState == State.INACTIVE || newState == State.NONE
+
     }
 
     override fun onCapture(b: ByteArray) {
-        for (i in surfers.indices) {
-            "new capture".deb()
-            val p = surfers[i].parser
+        if (raw == null || raw!!.size != b.size)
+            raw = b
 
-            val r = surfers[i].renderer
-
-            p.parse(b, r.sampleSize)
-
-            //update renderer data snapshot
-            r.dataSnapshot = p.parsed
-
-            r.decline = 0f
-
-            r.peak = 128f
-
-        }
+        "on data capture".deb()
     }
 
     override fun onTick(delta: Double) {
+        if (raw == null)
+            return
+
+        "on tick".deb()
+
         for (i in surfers.indices) {
-            surfers[i].renderer.onUpdate(delta)
-            surfers[i].requestFrame()
+            with(surfers[i]){
+                this.parser.parse(raw!!, this.renderer.sampleSize)
+
+                this.renderer.dataSnapshot = this.parser.parsed
+                this.renderer.decline = -128f
+                this.renderer.peak = 128f
+
+                this.renderer.onUpdate(delta)
+
+                this.requestFrame()
+            }
         }
+
+
     }
 
 

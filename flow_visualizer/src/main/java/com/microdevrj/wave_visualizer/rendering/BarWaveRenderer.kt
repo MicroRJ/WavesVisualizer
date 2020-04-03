@@ -44,9 +44,6 @@ class BarWaveRenderer(
     override fun onUpdate(deltaTime: Double) {
         if (dataSnapshot == null)
             return
-
-        "bar renderer updating".deb()
-
         dataSnapshot?.size?.deb()
 
         for (i in dataSnapshot!!.indices)

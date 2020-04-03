@@ -6,13 +6,13 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import com.microdevrj.deb
-import com.microdevrj.wave_visualizer.events.Surfer
+import com.microdevrj.wave_visualizer.Surfer
 import com.microdevrj.wave_visualizer.logic.WaveParser
 
 
 class WaveView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    View(context, attrs, defStyleAttr), Surfer{
+    View(context, attrs, defStyleAttr), Surfer {
 
     override var parser: WaveParser = WaveParser()
 

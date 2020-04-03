@@ -1,7 +1,6 @@
-package com.microdevrj.wave_visualizer.source
+package com.microdevrj.wave_visualizer
 
 import android.media.audiofx.Visualizer
-import com.microdevrj.deb
 
 /**
  * Abstraction layer over the visualizer
