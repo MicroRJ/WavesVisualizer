@@ -22,42 +22,21 @@ class WaveParser {
     }
 
 
-    //contains raw wave data
-    var map: IntArray? = null
+    var parsed: FloatArray? = null
+    var factor: Int = -1
 
-    //interpolated wave data
-    var interpolation: FloatArray? = null
-
-    private var factor: Int = -1
-
-    //1,2,3,4,5,6,7,8,9,10,11,12
-    //0,0,0,0,0
-    //factor of 2.4 int 2
-    //1.5, 3.5, 5.12, 7.2, 8 | lost -> 11.45
-    //
-    //| | | | |
-
-    /**
-     * @param rough the array to map
-     * @param mapSize the size of the output array
-     */
-    fun map(rough: ByteArray, mapSize: Int) {
-        require(mapSize < rough.size)
-        if (map == null) {
-            map = IntArray(mapSize)
-            interpolation = FloatArray(mapSize)
-            factor = rough.size / mapSize
+    @Synchronized
+    fun parse(b: ByteArray, parseSize: Int) {
+        if (parsed == null) {
+            parsed = FloatArray(parseSize)
+            factor = b.size / parseSize
         }
-        require(factor > 0)
-        require(map != null)
-
-        for (i in map!!.indices)
-            map!![i] = rough.averageValueInBytes(i * factor, factor)
-    }
-
-    fun interpolate(rough: IntArray) {
-        for (i in interpolation!!.indices)
-            interpolation!![i] = lerp(DEFAULT_SMOOTHING, interpolation!![i], max(0, map!![i]).toFloat())
+        //b.indices == parsed.indices, avoid having to null check
+        for (i in parsed!!.indices) {
+            val avg = b.averageValueInBytes(i * factor, factor)
+            //interpolate between previous value and new value
+            parsed!![i] = lerp(DEFAULT_SMOOTHING, parsed!![i], avg)
+        }
     }
 
     private fun ByteArray.averageValueInBytes(offset: Int, limit: Int): Int {
@@ -70,7 +49,7 @@ class WaveParser {
     }
 
 
-    private fun lerp(norm: Float, min: Float, max: Float): Float {
+    private fun lerp(norm: Float, min: Float, max: Int): Float {
         return (max - min) * norm + min
     }
 }

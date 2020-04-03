@@ -52,12 +52,10 @@ class Wave(id: String) : WaveSource.WaveListener,
 
             val r = surfers[i].renderer
 
-            //map the data
-            p.map(b, r.sampleSize)
-            //interpolate
-            p.interpolate(p.map!!)
+            p.parse(b, r.sampleSize)
+
             //update renderer data snapshot
-            r.dataSnapshot = p.interpolation
+            r.dataSnapshot = p.parsed
 
             r.decline = 0f
 
