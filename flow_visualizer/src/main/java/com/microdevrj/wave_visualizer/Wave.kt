@@ -1,6 +1,5 @@
 package com.microdevrj.wave_visualizer
 
-import com.microdevrj.deb
 import com.microdevrj.wave_visualizer.logic.ChronoEngine
 import com.microdevrj.wave_visualizer.logic.TickListener
 
@@ -56,13 +55,13 @@ class Wave(id: String) : WaveSource.WaveListener,
 
         for (i in surfers.indices) {
             with(surfers[i]) {
-                this.parser.parse(raw!!, this.renderer.sampleSize)
+                this.parser.parse(raw!!, this.renderer.snashotSize)
 
-                this.renderer.dataSnapshot = this.parser.parsed
+                this.renderer.snapshot = this.parser.parsed
                 this.renderer.decline = -128f
                 this.renderer.peak = 128f
 
-                this.renderer.onUpdate(delta)
+                this.renderer.update(delta)
 
                 this.requestFrame()
             }

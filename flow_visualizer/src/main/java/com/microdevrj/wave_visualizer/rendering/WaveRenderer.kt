@@ -1,73 +1,55 @@
 package com.microdevrj.wave_visualizer.rendering
 
 import android.graphics.Canvas
-import android.graphics.RectF
 
-abstract class WaveRenderer {
+abstract class WaveRenderer(val properties: Properties) {
 
-    private var drawBounds: RectF = RectF()
+    var renderBounds: RenderBounds? = null
+        private set
+
+    var snashotSize: Int = -1
+        internal set
+
+    var snapshot: FloatArray? = null
         set(value) {
-            field = value
-            this.width = value.width()
-            this.height = value.height()
-            this.centerX = this.width / 2
-            this.centerY = this.height / 2
-        }
-
-    internal var centerY: Float = -1f
-
-    internal var centerX: Float = -1f
-
-    internal var width: Float = 0f
-
-    internal var height: Float = 0f
-
-    internal var plotSnapshot: FloatArray? = null
-
-
-    abstract var sampleSize: Int
-    /*
-    Smooth data value, managed by the visualizer view
-     */
-    var dataSnapshot: FloatArray? = null
-        set(value) {
-            field = value
-
-            if (value == null)
+            if (value == null) {
+                field = null
                 return
-
-            plotSnapshot = FloatArray(value.size) {
-                0f
             }
+            if (field == null || field!!.size != value.size) {
+                field = FloatArray(value.size) {
+                    value[it]
+                }
+                return
+            }
+            for (i in value.indices)
+                field!![i] = value[i]
         }
 
-    /*
-    Minimum data value within the snapshot
-     */
-    var decline: Float = -1f
+    var peak: Float = 0f
 
-    /*
-    Maximum data value within the snapshot
-     */
-    var peak: Float = -1f
+    var decline: Float = 0f
 
+    abstract fun onUpdateRenderBounds(rb: RenderBounds): Int
 
-    open fun onBoundsChanged(bounds: RectF) {
-        this.drawBounds = bounds
-    }
-
-    abstract fun onUpdate(deltaTime: Double)
+    abstract fun onUpdate(delta: Double)
 
     abstract fun onRender(canvas: Canvas)
 
+    fun updateRenderBounds(rb: RenderBounds) {
+        renderBounds = rb
+        snashotSize = onUpdateRenderBounds(rb)
+    }
 
-    abstract fun setForegroundColor(color: Int)
+    fun update(delta: Double) {
+        snapshot ?: return
+        onUpdate(delta)
+    }
 
-    abstract fun setBackgroundColor(color: Int)
-
-    ////////////////////////////////////////
-    ////////////////UTILITIES///////////////
-    ////////////////////////////////////////
+    fun render(canvas: Canvas) {
+        snapshot ?: return
+        onRender(canvas)
+    }
 
     internal fun Float.mapTo(
         inMin: Float,
@@ -82,6 +64,5 @@ abstract class WaveRenderer {
         outMin: Int,
         outMax: Int
     ) = (this - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
-
 
 }
