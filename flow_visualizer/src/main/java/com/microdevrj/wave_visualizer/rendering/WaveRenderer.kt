@@ -1,13 +1,14 @@
 package com.microdevrj.wave_visualizer.rendering
 
 import android.graphics.Canvas
+import com.microdevrj.deb
 
-abstract class WaveRenderer(val properties: Properties) {
+abstract class WaveRenderer<C : Customize>(var customize: C) {
 
     var renderBounds: RenderBounds? = null
         private set
 
-    var snashotSize: Int = -1
+    var snapshotSize: Int = -1
         internal set
 
     var snapshot: FloatArray? = null
@@ -30,15 +31,22 @@ abstract class WaveRenderer(val properties: Properties) {
 
     var decline: Float = 0f
 
-    abstract fun onUpdateRenderBounds(rb: RenderBounds): Int
+    abstract fun onCalculateSnapshotSize(rb: RenderBounds): Int
 
     abstract fun onUpdate(delta: Double)
 
     abstract fun onRender(canvas: Canvas)
 
+    abstract fun onCustomizeUpdate()
+
+    fun updateCustomize() {
+        onCustomizeUpdate()
+    }
+
     fun updateRenderBounds(rb: RenderBounds) {
         renderBounds = rb
-        snashotSize = onUpdateRenderBounds(rb)
+        snapshotSize = onCalculateSnapshotSize(rb)
+        snapshotSize.deb()
     }
 
     fun update(delta: Double) {

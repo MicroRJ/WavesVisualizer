@@ -2,23 +2,24 @@ package com.microdevrj.wave_visualizer.rendering
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import com.microdevrj.wave_visualizer.Surfer
+import com.microdevrj.wave_visualizer.factory.BarCustomize
 import com.microdevrj.wave_visualizer.factory.BarRenderer
 import com.microdevrj.wave_visualizer.logic.WaveParser
 
 
 class WaveView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) :
     View(context, attrs, defStyleAttr), Surfer {
 
     override var parser: WaveParser = WaveParser()
 
-    override var renderer: WaveRenderer =
-        BarRenderer(BarRenderer.BarProperties(20f, 80f, 20f))
+    override var renderer: WaveRenderer<*> = BarRenderer(BarCustomize())
 
     private var width: Float = 0f
 

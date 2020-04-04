@@ -4,42 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:orientation="vertical"
+    android:padding="24dp"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <com.microdevrj.wave_visualizer.rendering.WaveView
-        android:id="@+id/waveView"
-        android:layout_width="match_parent"
-        android:layout_height="146dp"
-        android:layout_margin="24dp"
-        android:background="@drawable/card"
-        android:elevation="12dp" />
+        <com.microdevrj.wave_visualizer.rendering.WaveView
+            android:id="@+id/waveView"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:elevation="12dp" />
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/mont_bold"
+            android:text="@string/waves_visualizer"
+            android:textColor="#242424"
+            android:textSize="34sp" />
+
+    </LinearLayout>
 
 
     <com.microdevrj.wave_visualizer.rendering.WaveView
         android:id="@+id/waveView1"
         android:layout_width="match_parent"
-        android:layout_height="146dp"
-        android:layout_margin="24dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginBottom="44dp"
+        android:layout_weight="1"
         android:background="@drawable/card"
-        android:backgroundTint="@color/colorSecondary"
         android:elevation="12dp" />
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:background="@drawable/card"
-        android:backgroundTint="#fff"
-        android:elevation="12dp"
+        android:background="@drawable/card_outline"
         android:orientation="vertical"
         android:padding="24dp">
 

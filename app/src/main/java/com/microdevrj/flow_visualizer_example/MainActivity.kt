@@ -1,10 +1,13 @@
 package com.microdevrj.flow_visualizer_example
 
+import android.graphics.Color
+import android.graphics.Paint
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.Toast
 import com.microdevrj.wave_visualizer.Wave
+import com.microdevrj.wave_visualizer.factory.BarCustomize
 import com.microdevrj.wave_visualizer.factory.BarRenderer
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.IllegalArgumentException
@@ -26,31 +29,38 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val barR = waveView.renderer as BarRenderer
+        customizeWaveViewOne()
 
+        initCustomizableWaveView()
+
+        wave.add(waveView)
+
+        wave.add(waveView1)
+    }
+
+    private fun initCustomizableWaveView() {
+        val renderer = waveView1.renderer as BarRenderer
+        val customize = waveView1.renderer.customize as BarCustomize
         var property = R.id.r1
-
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
             property = checkedId
             seekBar.progress = when (property) {
-                R.id.r1 -> barR.barProp.width.toInt()
-                R.id.r2 -> barR.barProp.maxHeight.toInt()
-                R.id.r3 -> barR.barProp.spacing.toInt()
+                R.id.r1 -> customize.width.toInt()
+                R.id.r2 -> customize.height.toInt()
+                R.id.r3 -> customize.spacing.toInt()
                 else -> throw IllegalArgumentException("wtf")
             }
         }
-
-
-        seekBar.max = 200
-        seekBar.progress = barR.barProp.width.toInt()
+        seekBar.max = 400
+        seekBar.progress = customize.width.toInt()
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 when (property) {
-                    R.id.r1 -> barR.barProp.width = progress.toFloat()
-                    R.id.r2 -> barR.barProp.maxHeight = progress.toFloat()
-                    R.id.r3 -> barR.barProp.spacing = progress.toFloat()
+                    R.id.r1 -> customize.width = progress.toFloat()
+                    R.id.r2 -> customize.height = progress.toFloat()
+                    R.id.r3 -> customize.spacing = progress.toFloat()
                 }
-                barR.barProp.update()
+                renderer.updateCustomize()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -59,11 +69,18 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+    }
 
-
-
-        wave.add(waveView)
-        wave.add(waveView1)
+    private fun customizeWaveViewOne() {
+        (waveView.renderer.customize as BarCustomize).apply {
+            this.style = Paint.Style.STROKE
+            this.color = Color.BLACK
+            this.align = BarCustomize.Align.CENTER
+            this.spacing = 10f
+            this.width = 15f
+            this.height = 60f
+        }
+        waveView.renderer.updateCustomize()
     }
 
     override fun onPermissionsGranted() {
@@ -72,7 +89,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
     private fun initPlayer() {
         try {
-            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_4)
+            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_3)
             mediaPlayer.setOnPreparedListener(this)
         } catch (e: Exception) {
             Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()

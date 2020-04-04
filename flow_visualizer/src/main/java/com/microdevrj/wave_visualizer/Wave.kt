@@ -55,7 +55,7 @@ class Wave(id: String) : WaveSource.WaveListener,
 
         for (i in surfers.indices) {
             with(surfers[i]) {
-                this.parser.parse(raw!!, this.renderer.snashotSize)
+                this.parser.parse(raw!!, this.renderer.snapshotSize)
 
                 this.renderer.snapshot = this.parser.parsed
                 this.renderer.decline = -128f

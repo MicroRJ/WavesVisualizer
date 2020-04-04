@@ -1,71 +1,77 @@
 package com.microdevrj.wave_visualizer.factory
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
-import com.microdevrj.wave_visualizer.rendering.Properties
 import com.microdevrj.wave_visualizer.rendering.RenderBounds
 import com.microdevrj.wave_visualizer.rendering.WaveRenderer
 
 
-class BarRenderer(val barProp: BarProperties) : WaveRenderer(barProp) {
+class BarRenderer(customize: BarCustomize) : WaveRenderer<BarCustomize>(customize) {
 
-    private val halfW: Float = barProp.width / 2
+    private var bWidth = customize.width
+    private var bHeight = customize.height
+    private var bSpacing = customize.spacing
+    private var bRadius = customize.radius
+    private var bAlign = customize.align
+
+    private val halfW: Float = customize.width / 2
 
     private var centerY: Float = 0f
 
     private var offset: Float = 0f
 
     private val paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.FILL
-        color = barProp.foregroundColor
-        textSize = 24f
+        style = customize.style
+        color = customize.color
     }
 
-    init {
-        barProp.updateListener = Runnable {
-            //invalidate snapshot size
-            snashotSize = onUpdateRenderBounds(renderBounds!!)
+    override fun onCustomizeUpdate() {
+        with(customize) {
+            bWidth = this.width
+            bHeight = this.height
+            bSpacing = this.spacing
+            bRadius = this.radius
+            bAlign = this.align
         }
+        paint.apply {
+            style = customize.style
+            color = customize.color
+            strokeWidth = customize.strokeWidth
+        }
+        if (renderBounds != null)
+            snapshotSize = onCalculateSnapshotSize(renderBounds!!)
     }
 
-    override fun onUpdateRenderBounds(rb: RenderBounds): Int {
+    override fun onCalculateSnapshotSize(rb: RenderBounds): Int {
         centerY = rb.height / 2
-        val b = barProp.width + barProp.spacing
-        val s = (rb.width / b).toInt()
-        offset = (rb.width - s * b) / 2 + (b - barProp.width) / 2
-        return s
+        val totalWidth = bWidth + bSpacing
+        val fit = (rb.width / totalWidth).toInt()
+        offset = (rb.width - fit * totalWidth) / 2 + (totalWidth - bWidth) / 2
+        return fit
     }
 
 
     override fun onUpdate(delta: Double) {
         for (i in snapshot!!.indices)
-            super.snapshot!![i] = snapshot!![i].mapTo(decline, peak, 0f, barProp.maxHeight / 2)
+            super.snapshot!![i] = snapshot!![i].mapTo(decline, peak, 0f, bHeight / 2)
     }
 
     override fun onRender(
         canvas: Canvas
     ) {
         for (i in snapshot!!.indices) {
-            val left = i * (barProp.width + barProp.spacing) + offset
+            val left = i * (bWidth + bSpacing) + offset
             val mapped = super.snapshot!![i]
             canvas.drawRoundRect(
                 left,
-                centerY - mapped,
-                left + barProp.width,
-                centerY + mapped,
+                (centerY - mapped),
+                left + bWidth,
+                (centerY + mapped),
                 halfW,
                 halfW,
                 paint
             )
         }
-
-        canvas.drawText("$snashotSize", 100f, 100f, paint)
-    }
-
-
-    class BarProperties(var width: Float, var maxHeight: Float, var spacing: Float) : Properties() {
-        var foregroundColor: Int = Color.WHITE
     }
 
 
