@@ -1,9 +1,9 @@
-package com.microdevrj.wave_visualizer.factory
+package com.microdevrj.waves_visualizer.factory
 
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Style.FILL
-import com.microdevrj.wave_visualizer.rendering.Customize
+import com.microdevrj.waves_visualizer.rendering.Customize
 
 
 class BarCustomize : Customize {

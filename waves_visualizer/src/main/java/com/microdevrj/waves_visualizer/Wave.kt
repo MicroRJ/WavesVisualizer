@@ -1,7 +1,7 @@
-package com.microdevrj.wave_visualizer
+package com.microdevrj.waves_visualizer
 
-import com.microdevrj.wave_visualizer.logic.ChronoEngine
-import com.microdevrj.wave_visualizer.logic.TickListener
+import com.microdevrj.waves_visualizer.logic.ChronoEngine
+import com.microdevrj.waves_visualizer.logic.TickListener
 
 class Wave(id: String) : WaveSource.WaveListener,
     TickListener {

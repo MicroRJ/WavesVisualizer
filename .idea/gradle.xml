@@ -11,7 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/flow_visualizer" />
+            <option value="$PROJECT_DIR$/waves_visualizer" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

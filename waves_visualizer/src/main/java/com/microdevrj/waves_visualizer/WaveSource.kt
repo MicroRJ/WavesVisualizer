@@ -1,4 +1,4 @@
-package com.microdevrj.wave_visualizer
+package com.microdevrj.waves_visualizer
 
 import android.media.audiofx.Visualizer
 

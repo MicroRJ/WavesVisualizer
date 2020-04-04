@@ -1,3 +1,0 @@
-package com.microdevrj.wave_visualizer.rendering
-
-interface Customize

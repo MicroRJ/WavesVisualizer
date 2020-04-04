@@ -1,13 +1,13 @@
-package com.microdevrj.wave_visualizer.rendering
+package com.microdevrj.waves_visualizer.rendering
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import com.microdevrj.wave_visualizer.Surfer
-import com.microdevrj.wave_visualizer.factory.BarCustomize
-import com.microdevrj.wave_visualizer.factory.BarRenderer
-import com.microdevrj.wave_visualizer.logic.WaveParser
+import com.microdevrj.waves_visualizer.Surfer
+import com.microdevrj.waves_visualizer.factory.BarCustomize
+import com.microdevrj.waves_visualizer.factory.BarRenderer
+import com.microdevrj.waves_visualizer.logic.WaveParser
 
 
 class WaveView @JvmOverloads constructor(

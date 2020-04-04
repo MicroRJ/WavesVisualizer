@@ -1,4 +1,4 @@
-package com.microdevrj.wave_visualizer.logic
+package com.microdevrj.waves_visualizer.logic
 
 import android.util.Log
 

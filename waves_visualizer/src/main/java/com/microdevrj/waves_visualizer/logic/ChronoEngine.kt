@@ -1,6 +1,6 @@
-package com.microdevrj.wave_visualizer.logic
+package com.microdevrj.waves_visualizer.logic
 
-import com.microdevrj.wave_visualizer.RegistryList
+import com.microdevrj.waves_visualizer.RegistryList
 
 class ChronoEngine private constructor() : Runnable,
     IdleListener {

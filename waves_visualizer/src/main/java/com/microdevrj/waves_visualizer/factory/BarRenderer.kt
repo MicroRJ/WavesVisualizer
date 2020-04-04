@@ -1,9 +1,9 @@
-package com.microdevrj.wave_visualizer.factory
+package com.microdevrj.waves_visualizer.factory
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import com.microdevrj.wave_visualizer.rendering.RenderBounds
-import com.microdevrj.wave_visualizer.rendering.WaveRenderer
+import com.microdevrj.waves_visualizer.rendering.RenderBounds
+import com.microdevrj.waves_visualizer.rendering.WaveRenderer
 
 
 class BarRenderer(customize: BarCustomize) : WaveRenderer<BarCustomize>(customize) {

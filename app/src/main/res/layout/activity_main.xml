@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.microdevrj.wave_visualizer.rendering.WaveView
+        <com.microdevrj.waves_visualizer.rendering.WaveView
             android:id="@+id/waveView"
             android:layout_width="match_parent"
             android:layout_height="34dp"
@@ -33,7 +33,7 @@
     </LinearLayout>
 
 
-    <com.microdevrj.wave_visualizer.rendering.WaveView
+    <com.microdevrj.waves_visualizer.rendering.WaveView
         android:id="@+id/waveView1"
         android:layout_width="match_parent"
         android:layout_height="0dp"

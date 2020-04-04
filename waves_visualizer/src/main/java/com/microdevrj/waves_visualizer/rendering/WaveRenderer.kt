@@ -1,4 +1,4 @@
-package com.microdevrj.wave_visualizer.rendering
+package com.microdevrj.waves_visualizer.rendering
 
 import android.graphics.Canvas
 import com.microdevrj.deb

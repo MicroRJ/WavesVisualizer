@@ -6,9 +6,9 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.Toast
-import com.microdevrj.wave_visualizer.Wave
-import com.microdevrj.wave_visualizer.factory.BarCustomize
-import com.microdevrj.wave_visualizer.factory.BarRenderer
+import com.microdevrj.waves_visualizer.Wave
+import com.microdevrj.waves_visualizer.factory.BarCustomize
+import com.microdevrj.waves_visualizer.factory.BarRenderer
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.IllegalArgumentException
 
