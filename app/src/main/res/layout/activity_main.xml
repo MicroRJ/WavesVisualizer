@@ -18,8 +18,7 @@
         <com.microdevrj.waves_visualizer.rendering.WaveView
             android:id="@+id/waveView"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:elevation="12dp" />
+            android:layout_height="34dp" />
 
         <TextView
             android:id="@+id/header"

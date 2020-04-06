@@ -65,8 +65,6 @@ abstract class PermissionsActivity : AppCompatActivity() {
         }
     }
 
-    open fun onPermissionsGranted() {
-
-    }
+    abstract fun onPermissionsGranted()
 
 }

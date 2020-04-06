@@ -6,7 +6,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.Toast
-import com.microdevrj.waves_visualizer.Wave
+import com.microdevrj.waves_visualizer.WaveEngine
 import com.microdevrj.waves_visualizer.factory.BarCustomize
 import com.microdevrj.waves_visualizer.factory.BarRenderer
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,11 +19,29 @@ import java.lang.IllegalArgumentException
  */
 class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
+
+    //provide your own media player
     private lateinit var mediaPlayer: MediaPlayer
 
-    private var wave: Wave =
-        Wave("wave_1")
+    //handles the Visualizer API
+    //handles update/rendering engine
+    //handles data parsing | converting from raw data -> display data
 
+    private var waveEngine: WaveEngine = WaveEngine("wave_1")
+
+    //permissions granted
+    override fun onPermissionsGranted() {
+        initPlayer()
+    }
+
+    private fun initPlayer() {
+        try {
+            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_2)
+            mediaPlayer.setOnPreparedListener(this)
+        } catch (e: Exception) {
+            Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +51,20 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
         initCustomizableWaveView()
 
-        wave.add(waveView)
+        waveEngine.add(waveView)
 
-        wave.add(waveView1)
+        waveEngine.add(waveView1)
+
     }
 
     private fun initCustomizableWaveView() {
+
+        //get renderer from wave view
         val renderer = waveView1.renderer as BarRenderer
-        val customize = waveView1.renderer.customize as BarCustomize
+
+        //get renderer customize object
+        val customize = renderer.customize
+
         var property = R.id.r1
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             property = checkedId
@@ -83,22 +107,10 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
         waveView.renderer.updateCustomize()
     }
 
-    override fun onPermissionsGranted() {
-        initPlayer()
-    }
-
-    private fun initPlayer() {
-        try {
-            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_3)
-            mediaPlayer.setOnPreparedListener(this)
-        } catch (e: Exception) {
-            Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
-        }
-    }
 
 
     override fun onPrepared(mP: MediaPlayer?) {
-        wave.with(mP!!.audioSessionId)
+        waveEngine.with(mP!!.audioSessionId)
 
         fab.setOnClickListener {
             mediaPlayer.toggle()
@@ -111,17 +123,15 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
         else
             this.start()
 
-        wave.setActive(this.isPlaying)
+        waveEngine.setActive(this.isPlaying)
 
         fab.setImageResource(if (this.isPlaying) R.drawable.ic_pause_black_24dp else R.drawable.ic_play_arrow_black_24dp)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.stop()
         mediaPlayer.release()
     }
-
 
 }

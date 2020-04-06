@@ -15,7 +15,7 @@ class WaveParser {
 
         private val TAG = WaveParser::class.java.name
 
-        const val DEFAULT_SMOOTHING = 0.40f
+        const val DEFAULT_SMOOTHING = 0.45f
         const val SOFT_SMOOTHING = 0.35f
         const val HARD_SMOOTHING = 0.55f
     }
@@ -23,10 +23,17 @@ class WaveParser {
     var parsed: FloatArray? = null
 
     var factor: Int = -1
+    var b: ByteArray? = null
 
-    @Synchronized
-    fun parse(b: ByteArray, parseSize: Int) {
-        if (parseSize >= b.size) {
+    /**
+     * @param b byte array contains raw wave data
+     *
+     */
+    fun parse(parseSize: Int) {
+        if (b == null)
+            return
+
+        if (parseSize >= b!!.size) {
             Log.w(TAG, "parse size >= limit, see WaveParser.kt @ method parse")
             return
         }
@@ -37,10 +44,10 @@ class WaveParser {
 
         if (parsed == null || parsed!!.size != parseSize) {
             parsed = FloatArray(parseSize)
-            factor = b.size / parseSize
+            factor = b!!.size / parseSize
         }
         for (i in parsed!!.indices) {
-            val avg = b.averageValueInBytes(i * factor, factor)
+            val avg = b!!.averageValueInBytes(i * factor, factor)
             //interpolate between previous value and new value
             parsed!![i] = lerp(DEFAULT_SMOOTHING, parsed!![i], avg)
         }

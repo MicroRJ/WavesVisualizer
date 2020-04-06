@@ -1,5 +1,6 @@
 package com.microdevrj.waves_visualizer.logic
 
+import com.microdevrj.deb
 import com.microdevrj.waves_visualizer.RegistryList
 
 class ChronoEngine private constructor() : Runnable,
@@ -129,6 +130,9 @@ class ChronoEngine private constructor() : Runnable,
         delta = (time - prevTime) / 1_000_000_000.0
 
         val fps = 1 / delta
+
+
+        fps.deb()
 
         prevTime = System.nanoTime()
     }
