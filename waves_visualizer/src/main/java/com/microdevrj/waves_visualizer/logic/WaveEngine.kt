@@ -1,26 +1,33 @@
 package com.microdevrj.waves_visualizer.logic
 
-import com.microdevrj.waves_visualizer.rendering.Surfer
+import com.microdevrj.deb
+import com.microdevrj.waves_visualizer.engine.ChronoEngine
+import com.microdevrj.waves_visualizer.engine.TickListener
 
-class WaveEngine(id: String) : WaveSource.WaveListener,
+class WaveEngine(chronoId: Int, maxSurfers: Int) : WaveSource.WaveListener,
     TickListener {
 
     enum class State {
         NONE, INACTIVE, ACTIVE
     }
 
-    private val gear = ChronoEngine.get().addGear(id, this)
-
     private var waveSource: WaveSource? = null
 
-    private val surfers: ArrayList<Surfer> = ArrayList()
 
+    //we only have one gear for all the wave displays
+    private val gear = ChronoEngine.get(1).addGear(chronoId, this)
+
+    //same concept as the chrono engine
+    private val waveDisplays: Array<WaveDisplay?> = arrayOfNulls(maxSurfers)
+
+    //
     private var state: State =
         State.NONE
 
-    private var snapshot: ByteArray? = null
+    //raw data capture
+    private var capture: ByteArray? = null
 
-    fun setActive(active: Boolean) {
+    fun active(active: Boolean) {
         waveSource?.active = active
         updateState(if (active) State.ACTIVE else State.INACTIVE)
     }
@@ -32,8 +39,8 @@ class WaveEngine(id: String) : WaveSource.WaveListener,
         updateState(State.NONE)
     }
 
-    fun add(surfer: Surfer) {
-        surfers.add(surfer)
+    fun add(id: Int, waveDisplay: WaveDisplay) {
+        waveDisplays[id] = waveDisplay
     }
 
     private fun updateState(newState: State) {
@@ -42,44 +49,47 @@ class WaveEngine(id: String) : WaveSource.WaveListener,
         //idle if not active
         this.gear.isIdle = newState == State.INACTIVE || newState == State.NONE
 
+
     }
 
     override fun onCapture(b: ByteArray) {
         //capture the data
-        if (snapshot == null)
-            snapshot = b
+        if (capture == null || b.size != capture!!.size)
+            capture = b
 
         for (i in b.indices)
-            snapshot!![i] = b[i]
+            capture!![i] = b[i]
     }
 
     override fun onTick(delta: Double) {
-        if (snapshot == null)
+        if (capture == null)
             return
 
-        for (i in surfers.indices) {
-            with(surfers[i]) {
+        for (i in waveDisplays.indices) {
+            waveDisplays[i] ?: continue
 
+            with(waveDisplays[i]!!) {
 
-//                this.parser.b = raw
-
+                /*
+                Manage parser
+                 */
                 //reduced mem usage
-                if (this.parser.b == null)
-                    this.parser.b = snapshot!!
+                if (parser.toParse == null || capture!!.size != parser.toParse!!.size)
+                    parser.toParse = capture!!
 
-                for (ri in snapshot!!.indices)
-                    this.parser.b!![i] = snapshot!![i]
+                for (ri in capture!!.indices)
+                    parser.toParse!![i] = capture!![i]
 
+                parser.parseDebugMode(renderer.snapshotSize)
 
-                this.parser.parse(this.renderer.snapshotSize)
+                /*
+                Manage snapshot
+                 */
+                renderer.snapshot = parser.parsed
 
-                this.renderer.snapshot = this.parser.parsed
-                this.renderer.decline = -128f
-                this.renderer.peak = 128f
+                renderer.update(delta)
 
-                this.renderer.update(delta)
-
-                this.requestFrame()
+                onRequestFrame()
             }
         }
 

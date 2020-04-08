@@ -8,7 +8,7 @@ import android.widget.SeekBar
 import android.widget.Toast
 import com.microdevrj.waves_visualizer.logic.WaveEngine
 import com.microdevrj.waves_visualizer.rendering.BarCustomize
-import com.microdevrj.waves_visualizer.factory.BarRenderer
+import com.microdevrj.waves_visualizer.default_renderer.BarRenderer
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.IllegalArgumentException
 
@@ -28,7 +28,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
     //handles data parsing | converting from raw data -> display data
 
     private var waveEngine: WaveEngine =
-        WaveEngine("wave_1")
+        WaveEngine(0, 2)
 
     //permissions granted
     override fun onPermissionsGranted() {
@@ -52,9 +52,9 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
         initDemonstrationWaveView()
 
-        waveEngine.add(waveView)
+        waveEngine.add(0, waveView)
 
-        waveEngine.add(waveView1)
+        waveEngine.add(1, waveView1)
 
     }
 
@@ -135,7 +135,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
         else
             this.start()
 
-        waveEngine.setActive(this.isPlaying)
+        waveEngine.active(this.isPlaying)
 
         fab.setImageResource(if (this.isPlaying) R.drawable.ic_pause_black_24dp else R.drawable.ic_play_arrow_black_24dp)
     }

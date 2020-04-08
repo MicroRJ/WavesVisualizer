@@ -27,10 +27,6 @@ abstract class WaveRenderer<C : Customize>(var customize: C) {
                 field!![i] = value[i]
         }
 
-    var peak: Float = 0f
-
-    var decline: Float = 0f
-
     abstract fun onCalculateSnapshotSize(rb: RenderBounds): Int
 
     abstract fun onUpdate(delta: Double)

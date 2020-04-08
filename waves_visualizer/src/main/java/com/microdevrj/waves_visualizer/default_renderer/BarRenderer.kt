@@ -1,7 +1,8 @@
-package com.microdevrj.waves_visualizer.factory
+package com.microdevrj.waves_visualizer.default_renderer
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import com.microdevrj.waves_visualizer.logic.WaveParser
 import com.microdevrj.waves_visualizer.rendering.BarCustomize
 import com.microdevrj.waves_visualizer.rendering.RenderBounds
 import com.microdevrj.waves_visualizer.rendering.WaveRenderer
@@ -54,7 +55,8 @@ class BarRenderer(customize: BarCustomize) : WaveRenderer<BarCustomize>(customiz
 
     override fun onUpdate(delta: Double) {
         for (i in snapshot!!.indices)
-            super.snapshot!![i] = snapshot!![i].mapTo(decline, peak, 0f, bHeight / 2)
+            super.snapshot!![i] =
+                snapshot!![i].mapTo(WaveParser.DECLINE, WaveParser.PEAK, 0f, bHeight / 2)
     }
 
     override fun onRender(

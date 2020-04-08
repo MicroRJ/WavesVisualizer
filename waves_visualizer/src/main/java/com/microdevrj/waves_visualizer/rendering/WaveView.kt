@@ -4,7 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import com.microdevrj.waves_visualizer.factory.BarRenderer
+import com.microdevrj.waves_visualizer.default_renderer.BarRenderer
+import com.microdevrj.waves_visualizer.logic.WaveDisplay
 import com.microdevrj.waves_visualizer.logic.WaveParser
 
 /**
@@ -16,7 +17,7 @@ class WaveView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) :
     View(context, attrs, defStyleAttr),
-    Surfer {
+    WaveDisplay {
 
     /*
     Future -> Optimize
@@ -53,7 +54,7 @@ class WaveView @JvmOverloads constructor(
      * Post invalidate upon requesting from,
      * Gets called by the wave engine
      */
-    override fun requestFrame() {
+    override fun onRequestFrame() {
         //allows for background thread rendering
         postInvalidate()
     }
