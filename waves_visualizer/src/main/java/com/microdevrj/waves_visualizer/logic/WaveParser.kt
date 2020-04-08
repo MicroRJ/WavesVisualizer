@@ -66,7 +66,7 @@ class WaveParser {
             Find average values in chunks
              */
             val off = i * chunkSize
-            for (b in off..(off + chunkSize))
+            for (b in off until off + chunkSize)
                 sum += toParse!![b]
 
             //interpolate between previous value and new value
