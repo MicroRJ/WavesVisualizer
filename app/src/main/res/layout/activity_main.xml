@@ -24,8 +24,8 @@
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/mont_bold"
-            android:text="@string/waves_visualizer"
+            android:fontFamily="@font/hack_bold"
+            android:text="Waves\nVisualizer"
             android:textColor="#242424"
             android:textSize="34sp" />
 
@@ -46,62 +46,78 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/card_outline"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:orientation="horizontal">
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            <RadioButton
-                android:id="@+id/r1"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="Width" />
+                android:orientation="vertical"
+                android:padding="24dp">
 
-            <RadioButton
-                android:id="@+id/r2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Height" />
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/r3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Spacing" />
+                    <RadioButton
+                        android:id="@+id/r1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:checked="true"
+                        android:text="Width" />
 
-        </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/r2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Height" />
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+                    <RadioButton
+                        android:id="@+id/r3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="Spacing" />
 
-        <CheckBox
-            android:id="@+id/rStroke"
+                </RadioGroup>
+
+
+                <CheckBox
+                    android:id="@+id/rStroke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stroke" />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stroke" />
+            android:layout_gravity="bottom"
+            android:layout_margin="36dp"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            android:tint="#fff"
+            app:fabSize="normal" />
 
     </LinearLayout>
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="36dp"
-        android:src="@drawable/ic_play_arrow_black_24dp"
-        android:tint="#fff"
-        app:fabSize="normal" />
+        android:layout_marginTop="12dp" />
 
 </LinearLayout>
