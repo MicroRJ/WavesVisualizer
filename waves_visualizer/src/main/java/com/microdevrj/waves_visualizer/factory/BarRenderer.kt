@@ -2,6 +2,7 @@ package com.microdevrj.waves_visualizer.factory
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import com.microdevrj.waves_visualizer.rendering.BarCustomize
 import com.microdevrj.waves_visualizer.rendering.RenderBounds
 import com.microdevrj.waves_visualizer.rendering.WaveRenderer
 

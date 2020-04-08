@@ -1,7 +1,6 @@
-package com.microdevrj.waves_visualizer
+package com.microdevrj.waves_visualizer.logic
 
-import com.microdevrj.waves_visualizer.logic.ChronoEngine
-import com.microdevrj.waves_visualizer.logic.TickListener
+import com.microdevrj.waves_visualizer.rendering.Surfer
 
 class WaveEngine(id: String) : WaveSource.WaveListener,
     TickListener {
@@ -19,7 +18,7 @@ class WaveEngine(id: String) : WaveSource.WaveListener,
     private var state: State =
         State.NONE
 
-    private var raw: ByteArray? = null
+    private var snapshot: ByteArray? = null
 
     fun setActive(active: Boolean) {
         waveSource?.active = active
@@ -46,15 +45,16 @@ class WaveEngine(id: String) : WaveSource.WaveListener,
     }
 
     override fun onCapture(b: ByteArray) {
-        if (raw == null)
-            raw = b
+        //capture the data
+        if (snapshot == null)
+            snapshot = b
 
         for (i in b.indices)
-            raw!![i] = b[i]
+            snapshot!![i] = b[i]
     }
 
     override fun onTick(delta: Double) {
-        if (raw == null)
+        if (snapshot == null)
             return
 
         for (i in surfers.indices) {
@@ -65,10 +65,10 @@ class WaveEngine(id: String) : WaveSource.WaveListener,
 
                 //reduced mem usage
                 if (this.parser.b == null)
-                    this.parser.b = raw!!
+                    this.parser.b = snapshot!!
 
-                for (ri in raw!!.indices)
-                    this.parser.b!![i] = raw!![i]
+                for (ri in snapshot!!.indices)
+                    this.parser.b!![i] = snapshot!![i]
 
 
                 this.parser.parse(this.renderer.snapshotSize)

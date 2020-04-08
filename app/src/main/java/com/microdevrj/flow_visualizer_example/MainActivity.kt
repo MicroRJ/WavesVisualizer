@@ -6,8 +6,8 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.Toast
-import com.microdevrj.waves_visualizer.WaveEngine
-import com.microdevrj.waves_visualizer.factory.BarCustomize
+import com.microdevrj.waves_visualizer.logic.WaveEngine
+import com.microdevrj.waves_visualizer.rendering.BarCustomize
 import com.microdevrj.waves_visualizer.factory.BarRenderer
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.IllegalArgumentException
@@ -27,7 +27,8 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
     //handles update/rendering engine
     //handles data parsing | converting from raw data -> display data
 
-    private var waveEngine: WaveEngine = WaveEngine("wave_1")
+    private var waveEngine: WaveEngine =
+        WaveEngine("wave_1")
 
     //permissions granted
     override fun onPermissionsGranted() {
@@ -49,7 +50,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
         customizeWaveViewOne()
 
-        initCustomizableWaveView()
+        initDemonstrationWaveView()
 
         waveEngine.add(waveView)
 
@@ -57,7 +58,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
     }
 
-    private fun initCustomizableWaveView() {
+    private fun initDemonstrationWaveView() {
 
         //get renderer from wave view
         val renderer = waveView1.renderer as BarRenderer
@@ -66,13 +67,14 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
         val customize = renderer.customize
 
         var property = R.id.r1
+
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             property = checkedId
             seekBar.progress = when (property) {
                 R.id.r1 -> customize.width.toInt()
                 R.id.r2 -> customize.height.toInt()
                 R.id.r3 -> customize.spacing.toInt()
-                else -> throw IllegalArgumentException("wtf")
+                else -> throw IllegalArgumentException("what a terrible failure")
             }
         }
         seekBar.max = 400
@@ -93,6 +95,17 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+
+
+        rStroke.setOnCheckedChangeListener { _, c ->
+            customize.style =
+                if (customize.style == Paint.Style.FILL)
+                    Paint.Style.STROKE else Paint.Style.FILL
+
+            renderer.updateCustomize()
+
+        }
+
     }
 
     private fun customizeWaveViewOne() {
@@ -101,12 +114,11 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
             this.color = Color.BLACK
             this.align = BarCustomize.Align.CENTER
             this.spacing = 10f
-            this.width = 15f
+            this.width = 12f
             this.height = 60f
         }
         waveView.renderer.updateCustomize()
     }
-
 
 
     override fun onPrepared(mP: MediaPlayer?) {

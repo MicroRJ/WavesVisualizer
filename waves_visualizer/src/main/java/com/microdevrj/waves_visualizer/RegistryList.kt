@@ -2,7 +2,6 @@ package com.microdevrj.waves_visualizer
 
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class RegistryList<K, V> {
 

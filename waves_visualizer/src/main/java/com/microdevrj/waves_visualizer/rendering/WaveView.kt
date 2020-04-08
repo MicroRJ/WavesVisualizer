@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import com.microdevrj.waves_visualizer.Surfer
-import com.microdevrj.waves_visualizer.factory.BarCustomize
 import com.microdevrj.waves_visualizer.factory.BarRenderer
 import com.microdevrj.waves_visualizer.logic.WaveParser
 
@@ -17,7 +15,8 @@ class WaveView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) :
-    View(context, attrs, defStyleAttr), Surfer {
+    View(context, attrs, defStyleAttr),
+    Surfer {
 
     /*
     Future -> Optimize
@@ -27,7 +26,8 @@ class WaveView @JvmOverloads constructor(
     override var parser: WaveParser = WaveParser()
 
     //actually renders the bars
-    override var renderer: WaveRenderer<*> = BarRenderer(BarCustomize())
+    override var renderer: WaveRenderer<*> =
+        BarRenderer(BarCustomize())
 
     private var width: Float = 0f
 

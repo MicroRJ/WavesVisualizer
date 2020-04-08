@@ -1,9 +1,8 @@
-package com.microdevrj.waves_visualizer.factory
+package com.microdevrj.waves_visualizer.rendering
 
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Style.FILL
-import com.microdevrj.waves_visualizer.rendering.Customize
 
 
 class BarCustomize : Customize {
@@ -19,7 +18,8 @@ class BarCustomize : Customize {
     var width: Float = 25f
     var spacing: Float = 20f
     var color: Int = Color.WHITE
-    var align: Align = Align.CENTER
+    var align: Align =
+        Align.CENTER
     var style: Paint.Style = FILL
     var strokeWidth: Float = 5f
     var radius: Float = -1f
