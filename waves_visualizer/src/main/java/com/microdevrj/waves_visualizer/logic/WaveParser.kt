@@ -4,6 +4,7 @@ import android.util.Log
 import com.microdevrj.deb
 import java.lang.Exception
 import java.lang.NullPointerException
+import kotlin.math.sqrt
 
 
 /**
@@ -18,9 +19,9 @@ class WaveParser {
 
         private val TAG = WaveParser::class.java.name
 
-        const val DEFAULT_SMOOTHING = 0.45f
-        const val SOFT_SMOOTHING = 0.35f
-        const val HARD_SMOOTHING = 0.55f
+        const val T_DEFAULT = 0.45f
+        const val T_SOFT = 0.25f
+        const val T_ROUGH = 0.55f
 
         //max value in the float parsed array
         const val PEAK = 127f
@@ -72,8 +73,11 @@ class WaveParser {
             //interpolate between previous value and new value
             try {
 
-                parsed!![i] = ((sum / chunkSize) - parsed!![i]) * DEFAULT_SMOOTHING + parsed!![i]
-
+                //linear interpolation
+                val p1 = sum / chunkSize
+                val p0 = parsed!![i]
+                parsed!![i] = p0 + (p1 - p0) * sqrt(T_SOFT)
+//                parsed!![i] = (p0 + (p1 - p0) * DEFAULT_SMOOTHING
             } catch (d: Exception) {
                 d.deb()
             }

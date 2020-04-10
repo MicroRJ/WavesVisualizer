@@ -79,7 +79,8 @@ class ChronoEngine private constructor(private val maxGears: Int) : Runnable,
         prevTime = System.nanoTime()
 
         //before 27 > fps now 28 >
-//        val fps = 1 / delta
+        val fps = 1 / delta
+        fps.deb()
     }
 
 
