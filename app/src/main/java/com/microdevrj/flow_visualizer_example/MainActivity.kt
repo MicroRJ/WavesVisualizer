@@ -37,7 +37,7 @@ class MainActivity : PermissionsActivity(), MediaPlayer.OnPreparedListener {
 
     private fun initPlayer() {
         try {
-            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_4)
+            mediaPlayer = MediaPlayer.create(this, R.raw.sample_song_1)
             mediaPlayer.setOnPreparedListener(this)
         } catch (e: Exception) {
             Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
